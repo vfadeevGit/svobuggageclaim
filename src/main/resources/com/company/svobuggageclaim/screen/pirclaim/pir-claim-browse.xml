@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://PIRClaimBrowse.caption"
+        focusComponent="pIRClaimsTable">
+    <data readOnly="true">
+        <collection id="pIRClaimsDc"
+                    class="com.company.svobuggageclaim.entity.PIRClaim">
+            <fetchPlan extends="_base">
+                <property name="country" fetchPlan="_base"/>
+                <property name="listOfFligjts" fetchPlan="_base">
+                    <property name="airline" fetchPlan="_base"/>
+                    <property name="pIRClaim" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="pIRClaimsDl">
+                <query>
+                    <![CDATA[select e from PIRClaim e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="pIRClaimsTable" spacing="true">
+        <filter id="filter"
+                dataLoader="pIRClaimsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="pIRClaimsTable"
+                    width="100%"
+                    dataContainer="pIRClaimsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="datePIR"/>
+                <column id="copyAirTickets"/>
+                <column id="typeClaim"/>
+                <column id="customerName"/>
+                <column id="address"/>
+                <column id="postCode"/>
+                <column id="country"/>
+                <column id="email"/>
+                <column id="tempAddress"/>
+                <column id="phoneNumber"/>
+                <column id="ticketClass"/>
+                <column id="status"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="pIRClaimsTable.create"/>
+                <button id="editBtn" action="pIRClaimsTable.edit"/>
+                <button id="removeBtn" action="pIRClaimsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="svobuggageclaim">
+        <createTable tableName="AIRLINE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_AIRLINE"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="svobuggageclaim">
+        <createTable tableName="COUNTRY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_COUNTRY"/>
+            </column>
+            <column name="NAME" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="svobuggageclaim">
+        <createTable tableName="LIST_OF_FLIGHT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LIST_OF_FLIGHT"/>
+            </column>
+            <column name="AIRLINE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FLIGHT_ID" type="VARCHAR(15)"/>
+            <column name="DATE_FLIGHT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESTINATION_FROM" type="VARCHAR(255)"/>
+            <column name="DESTINATION_TO" type="VARCHAR(255)"/>
+            <column name="P_IR_CLAIM_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="svobuggageclaim">
+        <createTable tableName="PIR_CLAIM">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PIR_CLAIM"/>
+            </column>
+            <column name="DATE_PIR" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COPY_AIR_TICKETS" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_CLAIM" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CUSTOMER_NAME" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADDRESS" type="CLOB"/>
+            <column name="POST_CODE" type="VARCHAR(10)"/>
+            <column name="COUNTRY_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEMP_ADDRESS" type="CLOB"/>
+            <column name="PHONE_NUMBER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TICKET_CLASS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="svobuggageclaim">
+        <addUniqueConstraint columnNames="NAME" constraintName="UC_AIRLINE_NAME" tableName="AIRLINE"/>
+    </changeSet>
+    <changeSet id="6" author="svobuggageclaim">
+        <addUniqueConstraint columnNames="NAME" constraintName="UC_COUNTRY_NAME" tableName="COUNTRY"/>
+    </changeSet>
+    <changeSet id="7" author="svobuggageclaim">
+        <addForeignKeyConstraint baseColumnNames="P_IR_CLAIM_ID" baseTableName="LIST_OF_FLIGHT"
+                                 constraintName="FK_LISTOFFLIGHT_ON_PIRCLAIM" referencedColumnNames="ID"
+                                 referencedTableName="PIR_CLAIM"/>
+    </changeSet>
+    <changeSet id="8" author="svobuggageclaim">
+        <addForeignKeyConstraint baseColumnNames="AIRLINE_ID" baseTableName="LIST_OF_FLIGHT"
+                                 constraintName="FK_LIST_OF_FLIGHT_ON_AIRLINE" referencedColumnNames="ID"
+                                 referencedTableName="AIRLINE"/>
+
+        <createIndex indexName="IDX_LISTOFFLIGHT_AIRLINE_ID" tableName="LIST_OF_FLIGHT">
+            <column name="AIRLINE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="9" author="svobuggageclaim">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="PIR_CLAIM"
+                                 constraintName="FK_PIR_CLAIM_ON_COUNTRY" referencedColumnNames="ID"
+                                 referencedTableName="COUNTRY"/>
+
+        <createIndex indexName="IDX_PIRCLAIM_COUNTRY_ID" tableName="PIR_CLAIM">
+            <column name="COUNTRY_ID"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

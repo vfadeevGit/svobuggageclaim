@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://PIRClaimEdit.caption"
+        focusComponent="form">
+    <data>
+        <instance id="pIRClaimDc"
+                  class="com.company.svobuggageclaim.entity.PIRClaim">
+            <fetchPlan extends="_base">
+                <property name="country" fetchPlan="_base"/>
+                <property name="listOfFligjts" fetchPlan="_base">
+                    <property name="airline" fetchPlan="_base"/>
+                    <property name="pIRClaim" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+            <collection id="listOfFligjtsDc" property="listOfFligjts"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true" expand="scrollBox">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="pIRClaimDc">
+                <column width="350px">
+                    <dateField id="datePIRField" property="datePIR"/>
+                    <fileStorageUpload id="copyAirTicketsField" property="copyAirTickets"/>
+                    <comboBox id="typeClaimField" property="typeClaim"/>
+                    <textField id="customerNameField" property="customerName"/>
+                    <textArea id="addressField" property="address" rows="5"/>
+                    <textField id="postCodeField" property="postCode"/>
+                    <entityPicker id="countryField" property="country">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                    <textField id="emailField" property="email"/>
+                    <textArea id="tempAddressField" property="tempAddress" rows="5"/>
+                    <textField id="phoneNumberField" property="phoneNumber"/>
+                    <comboBox id="ticketClassField" property="ticketClass"/>
+                    <comboBox id="statusField" property="status"/>
+                </column>
+            </form>
+            <groupBox id="listOfFligjtsBox" caption="msg://com.company.svobuggageclaim.entity/PIRClaim.listOfFligjts">
+                <table id="listOfFligjtsTable" dataContainer="listOfFligjtsDc" width="100%" height="200px">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="flightID"/>
+                        <column id="dateFlight"/>
+                        <column id="destinationFrom"/>
+                        <column id="destinationTo"/>
+                        <column id="airline"/>
+                        <column id="pIRClaim"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button action="listOfFligjtsTable.create"/>
+                        <button action="listOfFligjtsTable.edit"/>
+                        <button action="listOfFligjtsTable.remove"/>
+                    </buttonsPanel>
+                </table>
+            </groupBox>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

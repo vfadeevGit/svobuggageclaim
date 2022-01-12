@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/ui/menu">
+
+    <menu id="application" caption="msg://com.company.svobuggageclaim/menu.application" insertBefore="administration">
+        <item screen="User.browse" caption="msg://com.company.svobuggageclaim.screen.user/UserBrowse.caption"/>
+        <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
+        <item screen="Country.browse" caption="msg://com.company.svobuggageclaim.screen.country/countryBrowse.menu"/>
+        <item screen="Airline.browse" caption="msg://com.company.svobuggageclaim.screen.airline/airlineBrowse.menu"/>
+        <item screen="PIRClaim.browse" caption="msg://com.company.svobuggageclaim.screen.pirclaim/PIRClaimBrowse.menu"/>
+    </menu>
+
+</menu-config>
